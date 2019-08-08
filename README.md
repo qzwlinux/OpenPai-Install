@@ -1,45 +1,45 @@
-# 1. OpenPai 安装文档
+# OpenPai 安装文档
 
 原链接为 [distributed-deploy](https://github.com/microsoft/pai/blob/v0.14.0/docs/pai-management/doc/distributed-deploy.md)
 
 <!-- TOC -->
 
-- [1. OpenPai 安装文档](#1-openpai-安装文档)
-        - [1.0.1. 选择合适版本的Dev-box](#101-选择合适版本的dev-box)
-        - [1.0.2. 运行Dev-box](#102-运行dev-box)
-        - [1.0.3. 在dev-box中进入工作区](#103-在dev-box中进入工作区)
-        - [1.0.4. 修改yaml文件](#104-修改yaml文件)
-        - [1.0.5. 生成配置文件](#105-生成配置文件)
-        - [1.0.6. 修改配置文件](#106-修改配置文件)
-        - [1.0.7. 部署k8s](#107-部署k8s)
-        - [1.0.8. 检查k8s部署状态](#108-检查k8s部署状态)
-        - [1.0.9. 上传openpai配置到k8s集群](#109-上传openpai配置到k8s集群)
-        - [1.0.10. 部署pai集群](#1010-部署pai集群)
-        - [1.0.11. 查看集群](#1011-查看集群)
+- [OpenPai 安装文档](#openpai-安装文档)
+    - [选择合适版本的Dev-box](#选择合适版本的dev-box)
+    - [运行Dev-box](#运行dev-box)
+    - [在dev-box中进入工作区](#在dev-box中进入工作区)
+    - [修改yaml文件](#修改yaml文件)
+    - [生成配置文件](#生成配置文件)
+    - [修改配置文件](#修改配置文件)
+    - [部署k8s](#部署k8s)
+    - [检查k8s部署状态](#检查k8s部署状态)
+    - [上传openpai配置到k8s集群](#上传openpai配置到k8s集群)
+    - [部署pai集群](#部署pai集群)
+    - [查看集群](#查看集群)
 
 <!-- /TOC -->
 
 
-### 1.0.1. 选择合适版本的Dev-box
+## 选择合适版本的Dev-box
 
 ```
 sudo docker pull docker.io/openpai/dev-box:v0.14.0
 ```
 
-### 1.0.2. 运行Dev-box
+## 运行Dev-box
 
 ```bash
 sudo docker run -itd --name=dev-box openpai/dev-box:v0.14.0 bash
 ```
 
-### 1.0.3. 在dev-box中进入工作区
+## 在dev-box中进入工作区
 
 ```bash
 sudo docker exec -it dev-box /bin/bash
 cd /pai
 ```
 
-### 1.0.4. 修改yaml文件
+## 修改yaml文件
 `/pai/deployment/quick-start/quick-start-example.yaml`
 
 ```YAML
@@ -69,13 +69,13 @@ ssh-password: siton
 # this IP range should NOT conflict with the current network.
 #service-cluster-ip-range: <ip-range-for-k8s>
 ```
-### 1.0.5. 生成配置文件
+## 生成配置文件
 
 ```bash
 python paictl.py config generate -i /pai/deployment/quick-start/quick-start-example.yaml -o ~/pai-config -f
 ```
 
-### 1.0.6. 修改配置文件
+## 修改配置文件
 生成的文件在/root/pai-config中
 
 1. `layout.yaml`
@@ -132,14 +132,14 @@ drivers:
   docker-registry: docker.io/mirrorgooglecontainers  #国内可以下载的镜像
 ```
 
-### 1.0.7. 部署k8s
+## 部署k8s
 
 ```bash
 cd /pai
 ./paictl.py cluster k8s-bootup -p ~/pai-config
 ```
 
-### 1.0.8. 检查k8s部署状态
+## 检查k8s部署状态
 
 运行以下命令检查k8s状态
 
@@ -149,13 +149,13 @@ kubectl get pod
 ```
 ![k8s](./images/k8s.png)
 
-### 1.0.9. 上传openpai配置到k8s集群
+## 上传openpai配置到k8s集群
 
 ```bash
 ./paictl.py config push -p ~/pai-config
 ```
 
-### 1.0.10. 部署pai集群
+## 部署pai集群
 
 确认好集群在When Kubernetes is up and running
 
@@ -163,7 +163,7 @@ kubectl get pod
 ./paictl.py service start
 ```
 
-### 1.0.11. 查看集群
+## 查看集群
 
 登录浏览器 http://masterip
 
